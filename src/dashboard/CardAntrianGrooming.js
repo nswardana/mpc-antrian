@@ -35,6 +35,7 @@ const CardAntrianGrooming = ({ authData, periodeID }) => {
       }
     }
 
+    getTicket();
     socket.on('data_next_patient', getTicket);
     return () => socket.off('data_next_patient',  getTicket);
     

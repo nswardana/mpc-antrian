@@ -22,6 +22,8 @@ const CardAntrian = ({ authData, periodeID,layanan }) => {
 
   useEffect(() => {
 
+    console.log("CardAntrian");
+
     function getTicket() {
       try {
         dataProvider.getAll("queues/getticketswithdoctors").then(data => {
@@ -35,6 +37,8 @@ const CardAntrian = ({ authData, periodeID,layanan }) => {
       }
     }
 
+    getTicket();
+    
     socket.on('data_next_patient', getTicket);
     return () => socket.off('data_next_patient',  getTicket);
     

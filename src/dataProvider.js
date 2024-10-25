@@ -2,8 +2,6 @@ import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 
 import configData from "./config.json";
-
-  
 const apiUrl = configData.apiUrl
 const httpClient = fetchUtils.fetchJson;
 
