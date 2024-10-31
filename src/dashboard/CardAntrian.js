@@ -38,8 +38,11 @@ const CardAntrian = ({ authData, periodeID,layanan }) => {
     }
 
     getTicket();
-    
     socket.on('data_next_patient', getTicket);
+    socket.on("data_next_patient", (data) => {
+				getTicket();
+		});
+
     return () => socket.off('data_next_patient',  getTicket);
     
   }, []);

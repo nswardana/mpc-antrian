@@ -1,12 +1,55 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {Box,Grid} from "@mui/material";
 import CardMedia from '@mui/material/CardMedia';
 import CardClock from "./CardClock";
 import CardAntrian from "./CardAntrian";
 import CardAntrianGrooming from "./CardAntrianGrooming";
+import io from "socket.io-client";
+import configData from "../config.json";
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 
 const AdminDashboard = () => {
+  const [socket, setSocket] = useState(io.connect(configData.apiUrl));
+  const [textAntrian, setText] = useState("Selamat datang di Sistem Antrian Klinik");
+  const { speak,voices } = useSpeechSynthesis();
+
+  /*
+  const {
+    Text, // Component that returns the modified text property
+  
+    speechStatus, // String that stores current speech status
+    isInQueue, // Boolean that stores whether a speech utterance is either being spoken or present in queue
+    start, // Function to start the speech or put it in queue
+    pause, // Function to pause the speech
+    stop, // Function to stop the speech or remove it from queue
+  } = useSpeech({ text: textAntrian,pitch: 1,rate: 0.8,volume: 1, lang: "id-ID", voiceURI: "urn:moz-tts:osx:com.apple.speech.synthesis.voice.damayanti"});
+  */
+
+  useEffect(() => {
+    console.log("useEffect AdminDashboard");
+    var vo= window.speechSynthesis.getVoices();
+    console.log(vo[6]);
+    speak({ text: textAntrian ,voice:vo[6], rate:0.8, pitch:1 });
+
+    socket.on("data_next_patient", (data) => {
+			console.log("AdminDashboard : data_next_patient");
+      console.log(data); // Log the received message data to the console
+      if (typeof data.id !== 'undefined') {
+        // the variable is defined
+        var textAntrian= "Nomor antrian "+data.id+" Silahkan masuk";
+        speak({ text: textAntrian,voice:vo[6], rate:0.8, pitch:1 });  
+      }
+
+   
+    });
+    return () => socket.off('data_next_patient');
+    
+  }, []);
+
+
+
   return (
     <>
       <Grid container style={{  height: '100vh',}}>
