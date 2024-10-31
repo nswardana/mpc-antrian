@@ -15,18 +15,6 @@ const AdminDashboard = () => {
   const [textAntrian, setText] = useState("Selamat datang di Sistem Antrian Klinik");
   const { speak,voices } = useSpeechSynthesis();
 
-  /*
-  const {
-    Text, // Component that returns the modified text property
-  
-    speechStatus, // String that stores current speech status
-    isInQueue, // Boolean that stores whether a speech utterance is either being spoken or present in queue
-    start, // Function to start the speech or put it in queue
-    pause, // Function to pause the speech
-    stop, // Function to stop the speech or remove it from queue
-  } = useSpeech({ text: textAntrian,pitch: 1,rate: 0.8,volume: 1, lang: "id-ID", voiceURI: "urn:moz-tts:osx:com.apple.speech.synthesis.voice.damayanti"});
-  */
-
   useEffect(() => {
     console.log("useEffect AdminDashboard");
     var vo= window.speechSynthesis.getVoices();
@@ -39,6 +27,7 @@ const AdminDashboard = () => {
       if (typeof data.id !== 'undefined') {
         // the variable is defined
         var textAntrian= "Nomor antrian "+data.id+" Silahkan masuk";
+        console.log(textAntrian);
         speak({ text: textAntrian,voice:vo[6], rate:0.8, pitch:1 });  
       }
 
