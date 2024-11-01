@@ -10,15 +10,12 @@ import CardWithIcon from "./CardWithIcon";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import {Box} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
-import io from "socket.io-client";
-import configData from "../config.json";
 
-const CardAntrianGrooming = ({ authData, periodeID }) => {
+const CardAntrianGrooming = ({ socket }) => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
-  const [socket, setSocket] = useState(io.connect(configData.apiUrl));
 
   async function getTicket() {
     console.log("function getTicket");

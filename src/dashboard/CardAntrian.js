@@ -10,16 +10,13 @@ import CardWithIcon from "./CardWithIcon";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import {Box} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
-import io from "socket.io-client";
-import configData from "../config.json";
 import { useSpeechSynthesis } from 'react-speech-kit';
 
-const CardAntrian = ({ authData, periodeID,layanan }) => {
+const CardAntrian = ({ socket }) => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
-  const [socket, setSocket] = useState(io.connect(configData.apiUrl));
   const { speak,voices } = useSpeechSynthesis();
 
   async function getTicket() {

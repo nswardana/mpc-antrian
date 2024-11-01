@@ -18,9 +18,13 @@ const AdminDashboard = () => {
   useEffect(() => {
    
     console.log("useEffect AdminDashboard");
+    const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
+    if(isChrome)
+      console.log("Pakai chrome");
+
     var vo= window.speechSynthesis.getVoices();
     console.log(vo[6]);
-    speak({ text: "Selamat datang di Sistem Antrian Klinik 1" ,voice:vo[6], rate:0.8, pitch:1 });
+    speak({ text: "Selamat datang di Sistem Antrian Klinik" ,voice:vo[6], rate:0.8, pitch:1 });
     socket.on("data_next_patient", (data) => {
 			console.log("AdminDashboard : data_next_patient");
       console.log(data); // Log the received message data to the console
@@ -42,8 +46,8 @@ const AdminDashboard = () => {
     <>
       <Grid container style={{  height: '100vh',}}>
         <Grid item xs={3} sm={3} md={3} p={1} sx={{ backgroundColor: '#008f8f' }}  >   
-          <CardAntrian />
-         <CardAntrianGrooming />
+          <CardAntrian socket={socket}/>
+          <CardAntrianGrooming socket={socket}/>
         </Grid>
         <Grid item xs={9} sm={9} md={9} p={0}>
           <Box sx={{ height: "22%", marginTop: 0,backgroundImage: `url(../background.png)`}} >
