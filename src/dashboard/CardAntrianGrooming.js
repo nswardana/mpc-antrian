@@ -20,29 +20,25 @@ const CardAntrianGrooming = ({ authData, periodeID }) => {
   const [error, setError] = useState();
   const [socket, setSocket] = useState(io.connect(configData.apiUrl));
 
-  useEffect(() => {
-
-    function getTicket() {
-      try {
-        dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
-          console.log(data.data);
-          setData(data.data);
-          setLoading(false);
-        });
-      } catch (error) {
-        setError(error);
+  async function getTicket() {
+    console.log("function getTicket");
+      dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
+        console.log("getTicket");
+        console.log(data.data);
+        setData(data.data);
         setLoading(false);
-      }
-    }
+      });
 
+  }
+
+  useEffect(() => {
+    console.log("CardAntrianGrooming");
     getTicket();
     socket.on('data_next_patient', getTicket);
-    socket.on("data_next_patient", (data) => {
-				getTicket();
-		});
-    return () => socket.off('data_next_patient',  getTicket);
+    return () => socket.off('data_next_patient');
     
-  }, []);
+  }, [socket]);
+
 
   if (loading) return <LinearProgress />;
   if (error) return <Error />;

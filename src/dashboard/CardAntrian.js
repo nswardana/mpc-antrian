@@ -12,6 +12,7 @@ import {Box} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
 import io from "socket.io-client";
 import configData from "../config.json";
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const CardAntrian = ({ authData, periodeID,layanan }) => {
 
@@ -19,33 +20,26 @@ const CardAntrian = ({ authData, periodeID,layanan }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [socket, setSocket] = useState(io.connect(configData.apiUrl));
+  const { speak,voices } = useSpeechSynthesis();
+
+  async function getTicket() {
+    console.log("function getTicket");
+      dataProvider.getAll("queues/getticketswithdoctors").then(data => {
+        console.log("getTicket");
+        console.log(data.data);
+        setData(data.data);
+        setLoading(false);
+      });
+
+  }
 
   useEffect(() => {
-
     console.log("CardAntrian");
-
-    function getTicket() {
-      try {
-        dataProvider.getAll("queues/getticketswithdoctors").then(data => {
-          console.log(data.data);
-          setData(data.data);
-          setLoading(false);
-        });
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    }
-
     getTicket();
     socket.on('data_next_patient', getTicket);
-    socket.on("data_next_patient", (data) => {
-				getTicket();
-		});
-
-    return () => socket.off('data_next_patient',  getTicket);
+    return () => socket.off('data_next_patient');
     
-  }, []);
+  }, [socket]);
 
   if (loading) return <LinearProgress />;
   if (error) return <Error />;
@@ -72,7 +66,7 @@ const CardAntrian = ({ authData, periodeID,layanan }) => {
                   title={"RAWAT JALAN"}
                   no_layanan={item.ticketNumber.toString().padStart(4, "0")}
                   layanan={"RAWAT JALAN"}
-                  no_antrian={item.no_antrian}
+                  no_antrian={item.ticketNumber.toString().padStart(4, "0")}
                   subtitle={1}
                 ></CardWithIcon>
                 </Box>

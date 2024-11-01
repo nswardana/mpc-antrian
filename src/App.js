@@ -54,7 +54,7 @@ const App = () => (
     <CustomRoutes>
       <Route path="/dashboard" element={<AdminDashboard />} />
     </CustomRoutes>
-    <Resource name="user" list={UserList} edit={UserEdit} create={UserCreate} />
+    <Resource name="user" list={AdminDashboard} edit={AdminDashboard} create={AdminDashboard} />
   </Admin>
 );
 
