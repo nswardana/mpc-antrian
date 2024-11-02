@@ -31,7 +31,7 @@ const CardClock = props => {
   return (
         <Box textAlign="center" pl={5} pr={5}>
             <Typography color="#000" sx={{fontWeight: 'bold', backgroundColor: '#FFF', borderRadius: '16px'}} variant="h5"> {date}</Typography>
-            <Typography variant="h3" component="h3" color="#dc2440" sx={{fontWeight: 'bold'}}>
+            <Typography variant="h3" component="h3" color="#dc2440" sx={{fontWeight: 'bold'}} >
             {hours}:{minutes}:{seconds}
             </Typography>
           </Box>

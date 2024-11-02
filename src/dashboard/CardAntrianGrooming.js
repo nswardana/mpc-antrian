@@ -17,14 +17,18 @@ const CardAntrianGrooming = ({ socket }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
-  async function getTicket() {
+  const getTicket = async () => {
     console.log("function getTicket");
-      dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
+    try { 
+    dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
         console.log("getTicket");
         console.log(data.data);
         setData(data.data);
         setLoading(false);
       });
+    } catch (error) {
+     console.error(error);
+    }
 
   }
 

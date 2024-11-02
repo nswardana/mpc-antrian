@@ -17,16 +17,19 @@ const CardAntrian = ({ socket }) => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
-  const { speak,voices } = useSpeechSynthesis();
 
-  async function getTicket() {
+  const getTicket = async () => {
     console.log("function getTicket");
+    try { 
       dataProvider.getAll("queues/getticketswithdoctors").then(data => {
         console.log("getTicket");
         console.log(data.data);
         setData(data.data);
         setLoading(false);
       });
+    } catch (error) {
+      console.error(error);
+     }
 
   }
 
