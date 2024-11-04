@@ -24,18 +24,30 @@ const AdminDashboard = () => {
 
     var vo= window.speechSynthesis.getVoices();
     console.log(vo[6]);
-    speak({ text: "Selamat datang di Sistem Antrian Klinik " ,voice:vo[6], rate:0.8, pitch:1 });
+    speak({ text: "Selamat datang di Sistem Antrian Klinik" ,voice:vo[6], rate:0.8, pitch:1 });
     socket.on("data_next_patient", (data) => {
 			console.log("AdminDashboard : data_next_patient");
       console.log(data); // Log the received message data to the console
       if (data!== null && Object.keys(data).length > 0) {
         // the variable is defined
-        var textAntrian= "Nomor antrian "+data.ticketNumber+" Silahkan masuk";
+        var textAntrian= "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk";
         console.log(textAntrian);
-        speak({ text: "Nomor antrian "+data.ticketNumber+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
+        speak({ text: "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
       }
 
     });
+
+    socket.on("data_recall", (data) => {
+      console.log("AdminDashboard : data_recall");
+      console.log(data); // Log the received message data to the console
+      var textAntrian= "Panggilan ulang, Nomor antrian "+data.toString().padStart(4, "0")+" Silahkan masuk";
+      console.log(textAntrian);
+      speak({ text: "Panggilan ulang, Nomor antrian "+data.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
+    
+
+    });
+
+
     return () => socket.off('data_next_patient');
     
   }, [socket]);

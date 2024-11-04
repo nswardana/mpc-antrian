@@ -17,23 +17,25 @@ const CardAntrianGrooming = ({ socket }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
-  const getTicket = async () => {
-    console.log("function getTicket");
-    try { 
-    dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
-        console.log("getTicket");
-        console.log(data.data);
-        setData(data.data);
-        setLoading(false);
-      });
-    } catch (error) {
-     console.error(error);
-    }
-
-  }
-
+  
   useEffect(() => {
     console.log("CardAntrianGrooming");
+    const getTicket = async () => {
+      console.log("function getTicket");
+      try { 
+      dataProvider.getAll("queues/getticketsWithGroomers").then(data => {
+          console.log("getTicket");
+          console.log(data.data);
+          setData(data.data);
+          setLoading(false);
+        });
+      } catch (error) {
+       console.error(error);
+      }
+  
+    }
+
+    
     getTicket();
     socket.on('data_next_patient', getTicket);
     return () => socket.off('data_next_patient');

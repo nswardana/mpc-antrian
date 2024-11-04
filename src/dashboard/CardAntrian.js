@@ -18,20 +18,22 @@ const CardAntrian = ({ socket }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
+  
   const getTicket = async () => {
-    console.log("function getTicket");
-    try { 
-      dataProvider.getAll("queues/getticketswithdoctors").then(data => {
-        console.log("getTicket");
-        console.log(data.data);
-        setData(data.data);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.error(error);
-     }
-
-  }
+      console.log("function getTicket");
+      try { 
+        dataProvider.getAll("queues/getticketswithdoctors").then(data => {
+          console.log("getTicket");
+          console.log(data.data);
+          setData(data.data);
+          setLoading(false);
+        });
+      } catch (error) {
+        console.error(error);
+       }
+  
+    }
+  
 
   useEffect(() => {
     console.log("CardAntrian");

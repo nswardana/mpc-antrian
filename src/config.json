@@ -1,8 +1,8 @@
 
 
 {
-    "apiUrl": "https://antrianapi.armonia.beeasy.id",
-    "apiUrl-dst": "http://localhost:4002"
+    "apiUrl-dst": "https://antrianapi.armonia.beeasy.id",
+    "apiUrl": "http://localhost:4002"
 }
 
   
