@@ -25,15 +25,21 @@ const AdminDashboard = () => {
     var vo= window.speechSynthesis.getVoices();
     console.log(vo[6]);
     speak({ text: "Selamat datang di Sistem Antrian Klinik" ,voice:vo[6], rate:0.8, pitch:1 });
-    socket.on("data_next_patient", (data) => {
-			console.log("AdminDashboard : data_next_patient");
+    
+    socket.on("next_patient_grooming", (dataantrian) => {
+
+      var data = dataantrian.data;
+			console.log("AdminDashboard : next_patient_grooming");
       console.log(data); // Log the received message data to the console
+     
+      
       if (data!== null && Object.keys(data).length > 0) {
         // the variable is defined
         var textAntrian= "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk";
         console.log(textAntrian);
         speak({ text: "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
       }
+  
 
     });
 

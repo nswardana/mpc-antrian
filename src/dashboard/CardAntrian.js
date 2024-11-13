@@ -35,8 +35,8 @@ const CardAntrian = ({ socket }) => {
   useEffect(() => {
     console.log("CardAntrian");
     getTicket();
-    socket.on('data_next_patient', getTicket);
-    return () => socket.off('data_next_patient');
+    socket.on('next_patient_doctor', getTicket);
+    return () => socket.off('next_patient_doctor');
     
   },[socket]);
 

@@ -32,13 +32,20 @@ const CardAntrianGrooming = ({ socket }) => {
       } catch (error) {
        console.error(error);
       }
-  
     }
 
     
     getTicket();
-    socket.on('data_next_patient', getTicket);
-    return () => socket.off('data_next_patient');
+    //socket.on('', getTicket);
+
+    socket.on('next_patient_grooming', (data) => {
+      console.log("ON next_patient_grooming");
+
+      console.log(data);
+      getTicket();
+    });
+
+    return () => socket.off('next_patient_grooming');
     
   }, [socket]);
 
