@@ -47,7 +47,6 @@ const AdminDashboard = () => {
 
     });
 
-
     return () => socket.off('data_next_patient');
     
   }, [socket]);

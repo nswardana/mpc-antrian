@@ -18,7 +18,6 @@ const CardAntrian = ({ socket }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
-  
   const getTicket = async () => {
       console.log("function getTicket");
       try { 
@@ -31,22 +30,19 @@ const CardAntrian = ({ socket }) => {
       } catch (error) {
         console.error(error);
        }
+  }
   
-    }
-  
-
   useEffect(() => {
     console.log("CardAntrian");
     getTicket();
     socket.on('data_next_patient', getTicket);
     return () => socket.off('data_next_patient');
     
-  }, [socket]);
+  },[socket]);
 
   if (loading) return <LinearProgress />;
   if (error) return <Error />;
   if (!data) return null;
-
   console.log("data",data);
   return (
     <>
