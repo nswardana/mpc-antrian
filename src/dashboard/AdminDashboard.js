@@ -8,68 +8,33 @@ import CardAntrianGrooming from "./CardAntrianGrooming";
 import io from "socket.io-client";
 import configData from "../config.json";
 import { useSpeechSynthesis } from 'react-speech-kit';
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player/youtube';
+
+
 
 const AdminDashboard = () => {
   const [socket, setSocket] = useState(io.connect(configData.apiUrl));
-  const [textAntrian, setText] = useState("Selamat datang di Sistem Antrian Klinik");
   const { speak,voices } = useSpeechSynthesis();
+  const [isVoicesLoaded, setIsVoicesLoaded] = useState(false);
+
+
+
+  useEffect(() => {
+    // Ensure voices are loaded before using them
+    const handleVoiceChange = () => {
+      setIsVoicesLoaded(true);
+    };
+
+    window.speechSynthesis.onvoiceschanged = handleVoiceChange;
+    
+    return () => {
+      window.speechSynthesis.onvoiceschanged = null; // Clean up on unmount
+    };
+  }, []);
 
   useEffect(() => {
    
-    console.log("useEffect AdminDashboard");
-    const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)
-    if(isChrome)
-      console.log("Pakai chrome");
-
-    var vo= window.speechSynthesis.getVoices();
-    console.log(vo[6]);
-    speak({ text: "Selamat datang di Sistem Antrian Klinik" ,voice:vo[6], rate:0.8, pitch:1 });
-    
-    socket.on("next_patient_grooming", (dataantrian) => {
-
-      var data = dataantrian.data;
-			console.log("AdminDashboard : next_patient_grooming");
-      console.log(data); // Log the received message data to the console
-      
-      if (data!== null && Object.keys(data).length > 0) {
-        // the variable is defined
-        var textAntrian= "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk";
-        console.log(textAntrian);
-        speak({ text: "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
-      }
   
-
-    });
-
-     socket.on("next_patient_doctor", (dataantrian) => {
-
-      var data = dataantrian.data;
-      console.log("AdminDashboard : next_patient_doctor");
-      console.log(data); // Log the received message data to the console
-      
-      if (data!== null && Object.keys(data).length > 0) {
-        // the variable is defined
-        var textAntrian= "Nomor antrian1 "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk";
-        console.log(textAntrian);
-        speak({ text: "Nomor antrian "+data.ticketNumber.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
-      }
-  
-
-    });
-
-    socket.on("data_recall", (data) => {
-      console.log("AdminDashboard : data_recall");
-      console.log(data); // Log the received message data to the console
-      var textAntrian= "Panggilan ulang, Nomor antrian "+data.toString().padStart(4, "0")+" Silahkan masuk";
-      console.log(textAntrian);
-      speak({ text: "Panggilan ulang, Nomor antrian "+data.toString().padStart(4, "0")+" Silahkan masuk",voice:vo[6], rate:0.8, pitch:1 });  
-    
-
-    });
-
-    return () => socket.off('data_next_patient');
-    
   }, [socket]);
 
 
@@ -102,20 +67,14 @@ const AdminDashboard = () => {
           </Box>
           <Box sx={{height: "1%", marginTop: 0,  backgroundColor: '#9AB447'}}/>
           <Box sx={{height: "100%",marginTop: 0,  backgroundColor: '#FFF'}}>
-          <ReactPlayer
-          className='react-player'
-          url='https://www.youtube.com/watch?v=ob166FOAhb0'
-          width='100%'
-          height='77%'
-        />
-
-            {/*}
+         
+          
              <CardMedia
               component="img"
               sx={{  objectFit: "fill",marginLeft: 0, width: "100%", height : "100%", backgroundColor: '#FFF', borderRadius: '0px'}}
               image="./cat-gigi.jpg"
               alt="MPC ICON"/>
-            {*/}
+            
 
          </Box>
         </Grid>

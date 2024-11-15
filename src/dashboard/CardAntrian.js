@@ -19,7 +19,7 @@ const CardAntrian = ({ socket }) => {
   const [error, setError] = useState();
 
   const getTicket = async () => {
-      console.log("function getTicket");
+      console.log("function getticketswithdoctors");
       try { 
         dataProvider.getAll("queues/getticketswithdoctors").then(data => {
           console.log("getTicket");
@@ -33,9 +33,13 @@ const CardAntrian = ({ socket }) => {
   }
   
   useEffect(() => {
-    console.log("CardAntrian");
     getTicket();
-    socket.on('next_patient_doctor', getTicket);
+
+    socket.on("next_patient_doctor", (data) => {
+      console.log("CardAntrian : next_patient_doctor");
+
+      getTicket();
+    });
     return () => socket.off('next_patient_doctor');
     
   },[socket]);
