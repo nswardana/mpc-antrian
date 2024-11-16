@@ -102,13 +102,23 @@ const CardAntrianGrooming = ({ socket }) => {
     }
   };
 
+  // Retry voice loading if voices are not available
+  const loadVoicesWithRetry = () => {
+    const voicesLoaded = window.speechSynthesis.getVoices();
+    if (voicesLoaded.length > 0) {
+      handleVoiceChange();
+    } else {
+      setTimeout(loadVoicesWithRetry, 1000); // Retry after 1 second
+    }
+  };
+
   // Ensure voices are loaded and handle voice selection
   useEffect(() => {
     getTicket();
     
     // Check if voices are already loaded
     if (voices.length === 0) {
-      window.speechSynthesis.onvoiceschanged = handleVoiceChange; // Wait for voices to load
+      window.speechSynthesis.onvoiceschanged = loadVoicesWithRetry; // Retry loading voices
     } else {
       handleVoiceChange(); // If voices are already loaded, set immediately
     }
