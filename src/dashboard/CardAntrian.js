@@ -40,10 +40,14 @@ const CardAntrian = ({ socket }) => {
 
   // Function to update ticket by groomer name
   const updateTicket = (newTicket) => {
+    console.log(prevTickets);
+    console.log(newTicket);
+
+
     setTickets((prevTickets) => {
       const updatedTickets = [...prevTickets];
       const existingTicketIndex = updatedTickets.findIndex(
-        (ticket) => ticket.doctor===newTicket.doctor
+        (ticket) => ticket.doctorId===newTicket.doctorId
       );
 
       if (existingTicketIndex !== -1) {
