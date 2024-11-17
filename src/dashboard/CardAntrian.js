@@ -38,32 +38,32 @@ const CardAntrian = ({ socket }) => {
     setTickets((prevTickets) => prevTickets.filter((ticket) => ticket.ticketId !== ticketId));
   };
 
-  // Function to update ticket by groomer name
+ 
   const updateTicket = (newTicket) => {
-    console.log(prevTickets);
-    console.log(newTicket);
+  // Update tickets using the state setter function
+  setTickets((prevTickets) => {
+    const updatedTickets = [...prevTickets];  // Create a copy of the current tickets
 
+    // Find if the ticket with this doctorId already exists
+    const existingTicketIndex = updatedTickets.findIndex(
+      (ticket) => ticket.doctorId === newTicket.doctorId
+    );
 
-    setTickets((prevTickets) => {
-      const updatedTickets = [...prevTickets];
-      const existingTicketIndex = updatedTickets.findIndex(
-        (ticket) => ticket.doctorId===newTicket.doctorId
-      );
+    if (existingTicketIndex !== -1) {
+      // If the ticket with this doctorId exists, update the ticketNumber
+      updatedTickets[existingTicketIndex] = {
+        ...updatedTickets[existingTicketIndex],
+        ticketNumber: newTicket.ticketNumber, // Update ticketNumber
+      };
+    } else {
+      // If no ticket for this doctorId, add a new one
+      updatedTickets.push(newTicket);
+    }
 
-      if (existingTicketIndex !== -1) {
-        // If the ticket with this groomer exists, update ticketNumber
-        updatedTickets[existingTicketIndex] = {
-          ...updatedTickets[existingTicketIndex],
-          ticketNumber: newTicket.ticketNumber, // Update ticketNumber
-        };
-      } else {
-        // If no ticket for this groomer, add a new one
-        updatedTickets.push(newTicket);
-      }
-
-      return updatedTickets;
-    });
-  };
+    // Return the updated tickets array
+    return updatedTickets;
+  });
+};
 
   // Function to announce ticket with selected voice
   const announceTicket = (ticketNumber) => {

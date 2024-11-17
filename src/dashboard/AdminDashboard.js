@@ -69,11 +69,8 @@ const AdminDashboard = () => {
           <Box sx={{height: "100%",marginTop: 0,  backgroundColor: '#FFF'}}>
          
           
-             <CardMedia
-              component="img"
-              sx={{  objectFit: "fill",marginLeft: 0, width: "100%", height : "100%", backgroundColor: '#FFF', borderRadius: '0px'}}
-              image="./cat-gigi.jpg"
-              alt="MPC ICON"/>
+          <ReactPlayer className='react-player' url='https://www.youtube.com/watch?v=ob166FOAhb0'  width='100%' height='77%' />
+
             
 
          </Box>
